@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace GVPS_SanalPOS
 {
@@ -10,26 +14,28 @@ namespace GVPS_SanalPOS
     {
         static void Main(string[] args)
         {
-            GarantiPOS en = new GarantiPOS();
+            GarantiPOS pos = new GarantiPOS();
 
-            en.UserID = "ada";
-            en.CurrencyCode = "949";
-            en.MotoInd = "N";
+            pos.UserID = "ada";
+            pos.CurrencyCode = "949";
+            pos.MotoInd = "N";
 
             Dictionary<string, string> dict = new Dictionary<string, string>
             {
                 { "IPAddress", "12.12.12.12" },
                 { "EmailAddress", "email@email.com" },
-                { "OrderID", "IN123141" },
+                { "OrderID", pos.GenerateOrderID() },
                 { "CardNumber", "5406697543211173" },
                 { "CardExpiryDate", "0323" },
                 { "CardCVV2", "465" },
                 { "TransactionAmount", "1000" }
             };
 
-            en.SetParameters(dict);
+            pos.SetParameters(dict);
 
-            Console.WriteLine(en.Pay());
+            XElement result = pos.Pay();
+
+            Console.WriteLine(result);
             Console.ReadLine();
 
         }

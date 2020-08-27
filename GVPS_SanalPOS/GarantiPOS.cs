@@ -7,17 +7,18 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Xml.Linq;
 using Newtonsoft.Json.Linq;
+using System.Xml;
 
 namespace GVPS_SanalPOS
 {
-	public class GarantiPOS
+	public class GarantiPOS // GarantiBBVA için Sanal POS kütüphanesi
 	{
-		public GarantiPOS()
+		public GarantiPOS() // HashData için TerminalID başı 0 ile başlamalı 9 digit olmalı
 		{
 			this.TerminalID_ = "0" + this.TerminalID;
 		}
 
-		private string mode = "TEST";
+		private string mode = "TEST"; // PROD yada TEST
 
 		public string Mode
 		{
@@ -26,17 +27,17 @@ namespace GVPS_SanalPOS
 		}
 
 
-		private string ChannelCode = "S";
+		private string ChannelCode = "S"; // sabit
 
-		private string Version = "v0.01";
+		private string Version = "v0.01"; // sabit
 
-		private string ProvUserID = "PROVAUT";
+		private string ProvUserID = "PROVAUT"; // Satış işlemi için provision kullanıcısı
 
-		private string ProvUserPassword = "123qweASD/";
+		private string ProvUserPassword = "123qweASD/"; // provizyon şifresi
 
-		private string SecureKey = "12345678";
+		private string SecureKey = "12345678"; // 3D için gerekli olan HashData'yı oluşturmak için kullanılacak.
 
-		private string hashData;
+		private string hashData; // Normal ödeme için gerekli SHA1 hash
 
 		public string HashData
 		{
@@ -44,7 +45,7 @@ namespace GVPS_SanalPOS
 			set { hashData = value; }
 		}
 
-		private string userID;
+		private string userID; // İşlemi yapan kullanıcı. Banka tarafından zorunlu kılınmıyor. Üye işyeri tarafında ödemeyi alan kullanıcıyı temsil eder.
 
 		public string UserID
 		{
@@ -52,13 +53,13 @@ namespace GVPS_SanalPOS
 			set { userID = value; }
 		}
 
-		private string TerminalID = "30691297";
+		private string TerminalID = "30691297"; // Üye işyerine tanımlanan ödeme tiplerine ait unique ID. 3D, 3D-PAY, 3D-FULL
 
-		private string TerminalID_;
+		private string TerminalID_; // Hash için gerekli 
 
-		private string MerchantID = "7000679";
+		private string MerchantID = "7000679"; // Üye işyeri no
 
-		private string remoteIP;
+		private string remoteIP; // Bankaya gönderilmek üzere POST request yapan aygıtın IP adresi
 
 		public string RemoteIP
 		{
@@ -66,7 +67,7 @@ namespace GVPS_SanalPOS
 			set { remoteIP = value; }
 		}
 
-		private string emailAddress;
+		private string emailAddress; // Bankaya gönderilmek üzere POST request yapan aygıtın email adresi
 
 		public string EmailAddress
 		{
@@ -74,7 +75,7 @@ namespace GVPS_SanalPOS
 			set { emailAddress = value; }
 		}
 
-		private string orderID;
+		private string orderID; // Her işlemde unique olması gereken iş emir numarası
 
 		public string OrderID
 		{
@@ -82,7 +83,7 @@ namespace GVPS_SanalPOS
 			set { orderID = value; }
 		}
 
-		private string cardNumber;
+		private string cardNumber; // Kart no
 
 		public string CardNumber
 		{
@@ -90,7 +91,7 @@ namespace GVPS_SanalPOS
 			set { cardNumber = value; }
 		}
 
-		private string cardExpiryDate;
+		private string cardExpiryDate; // Kart son kullanma tarihi
 
 		public string CardExpiryDate
 		{
@@ -98,7 +99,7 @@ namespace GVPS_SanalPOS
 			set { cardExpiryDate = value; }
 		}
 
-		private string cardCVV2;
+		private string cardCVV2; // Kart ccv
 
 		public string CardCVV2
 		{
@@ -106,7 +107,7 @@ namespace GVPS_SanalPOS
 			set { cardCVV2 = value; }
 		}
 
-		private string transactionType = "sales";
+		private string transactionType = "sales"; // iade ve iptal gibi seçenekleri de bulunuyor fakat bu kütüphane için sadece satış tanımlı
 
 		public string TransactionType
 		{
@@ -114,7 +115,7 @@ namespace GVPS_SanalPOS
 			set { transactionType = value; }
 		}
 
-		private string transactionAmount;
+		private string transactionAmount; // Karttan çekilecek miktar
 
 		public string TransactionAmount
 		{
@@ -122,7 +123,7 @@ namespace GVPS_SanalPOS
 			set { transactionAmount = value; }
 		}
 
-		private string currencyCode;
+		private string currencyCode; // Para birimi kodu : 949 TRY, 840 USD, 978 EURO, 826 GBP, 392 JPY 
 
 		public string CurrencyCode
 		{
@@ -130,7 +131,7 @@ namespace GVPS_SanalPOS
 			set { currencyCode = value; }
 		}
 
-		private string motoInd;
+		private string motoInd; // İşlermin Mail Order olup olmadığı belirler. Varsayılan olarak N yani kapalıdır.
 
 		public string MotoInd
 		{
@@ -140,7 +141,7 @@ namespace GVPS_SanalPOS
 
 		// BIN Query information
 
-		private string cardScheme;
+		private string cardScheme; // Kart Tipi
 
 		public string CardScheme
 		{
@@ -148,7 +149,7 @@ namespace GVPS_SanalPOS
 			set { cardScheme = value; }
 		}
 
-		private string bankName;
+		private string bankName; // Kartın ait olduğu banka
 
 		public string BankName
 		{
@@ -156,7 +157,7 @@ namespace GVPS_SanalPOS
 			set { bankName = value; }
 		}
 
-		private string bankURL;
+		private string bankURL; // Kartın ait olduğu bankaya ait websitesi URL
 
 		public string BankURL
 		{
@@ -164,7 +165,7 @@ namespace GVPS_SanalPOS
 			set { bankURL = value; }
 		}
 
-		private string cardCountry;
+		private string cardCountry; // Bankanın menşei
 
 		public string CardCountry
 		{
@@ -172,7 +173,7 @@ namespace GVPS_SanalPOS
 			set { cardCountry = value; }
 		}
 
-		private string cardCountryCode;
+		private string cardCountryCode; // Bankanın ülke kodu
 
 		public string CardCountryCode
 		{
@@ -180,9 +181,9 @@ namespace GVPS_SanalPOS
 			set { cardCountryCode = value; }
 		}
 
-		// 3D Fields
+		// 3D alanları
 
-		private string successURL;
+		private string successURL; // 3D işleminin başarılı dönüşünde bankanın POST request yapacağı adres
 
 		public string SuccessURL
 		{
@@ -190,7 +191,7 @@ namespace GVPS_SanalPOS
 			set { successURL = value; }
 		}
 
-		private string errorURL;
+		private string errorURL; // 3D işleminin başarısız dönüşünde bankanın POST request yapacağı adres
 
 		public string ErrorURL
 		{
@@ -198,15 +199,15 @@ namespace GVPS_SanalPOS
 			set { errorURL = value; }
 		}
 
-		public string ProvisionURL = "https://sanalposprov.garanti.com.tr/VPServlet";
+		public string ProvisionURL = "https://sanalposprov.garanti.com.tr/VPServlet"; // Normal XML ödeme URL
 
-		public string ProvisionTestURL = "https://sanalposprovtest.garanti.com.tr/VPServlet";
+		public string ProvisionTestURL = "https://sanalposprovtest.garanti.com.tr/VPServlet";  // Normal XML ödeme URL test ortamı
 
-		public string Provision3DURL = "https://sanalposprov.garanti.com.tr/servlet/gt3dengine";
+		public string Provision3DURL = "https://sanalposprov.garanti.com.tr/servlet/gt3dengine"; // 3D XML ödeme URL
 
-		public string Provision3DTestURL = "https://sanalposprov.garanti.com.tr/servlet/gt3dengine";
+		public string Provision3DTestURL = "https://sanalposprov.garanti.com.tr/servlet/gt3dengine"; // 3D XML ödeme URL test ortamı
 
-		public void SetParameters(Dictionary<string, string> param)
+		public void SetParameters(Dictionary<string, string> param) // Pay() methodu çağrılmadan önce bu method çağrılır. İçerisine Kart bilgileri ve müşteri bilgileri verilir.
 		{
 			this.RemoteIP = param["IPAddress"];
 			this.EmailAddress = param["EmailAddress"];
@@ -243,7 +244,7 @@ namespace GVPS_SanalPOS
 
 		}
 
-		public XElement GetXML()
+		public XElement GetXML() // Bankaya yapılacak POST request verisi. veri tipi XML
 		{
 			XElement xml = new XElement("GVPSRequest",
 				new XElement("Mode", this.Mode),
@@ -274,7 +275,7 @@ namespace GVPS_SanalPOS
 
 		}
 
-		public JObject BINQuery()
+		public JObject BINQuery() // Karta ait banka bilgilerine ulaşmak için kullanılan method
 		{
 			string cardNum = this.CardNumber.Substring(0, 6);
 
@@ -291,7 +292,7 @@ namespace GVPS_SanalPOS
 			return json;
 		}
 
-		public XElement Pay()
+		public XElement Pay() // Bankaya POST request işlemini yapar
 		{
 			var client = new RestClient();
 
@@ -308,5 +309,23 @@ namespace GVPS_SanalPOS
 			return xmlDoc;
 		}
 
+		public string GenerateOrderID() // OrderID üretir.
+		{
+			Random rnd = new Random();
+
+			string result;
+
+			using (SHA1 enc = new SHA1CryptoServiceProvider())
+			{
+				byte[] keySecurity = enc.ComputeHash(Encoding.UTF8.GetBytes(this.HashData + rnd.Next(int.MaxValue).ToString()));
+
+				string keySecStr = string.Concat(keySecurity.Select(b => b.ToString("X2")));
+
+				result = keySecStr.Substring(0, 9);
+
+			}
+
+			return result;
+		}
 	}
 }
