@@ -10,22 +10,22 @@ Little example:
 ```csharp
 GarantiPOS pos = new GarantiPOS();
 
-pos.UserID = "ada";
-pos.CurrencyCode = "949";
-pos.MotoInd = "N";
+pos.UserID = "PersonnelX";
+pos.CurrencyCode = "949"; // for ₺ Turkish Lira
+pos.MotoInd = "N"; // Mail Order payment, default false
 
 Dictionary<string, string> dict = new Dictionary<string, string>
 {
-    { "IPAddress", "12.12.12.12" },
+    { "IPAddress", "12.12.12.12" }, // IP Address must be gathered by programatically!
     { "EmailAddress", "email@email.com" },
     { "OrderID", pos.GenerateOrderID() },
-    { "CardNumber", "5406697543211173" },
+    { "CardNumber", "XXXXXXXXXXXXXXXX" },
     { "CardExpiryDate", "0323" },
     { "CardCVV2", "465" },
     { "TransactionAmount", "1000" }
 };
 
-pos.SetParameters(dict);
+pos.SetParameters(dict); // This must be set before the pos.Pay() method.
 
 XElement result = pos.Pay();
 ```
