@@ -37,8 +37,8 @@ For production pos.Mode should be "PROD" and pos.TerminalID, pos.MerchandID, pos
 
 # Bin Query:
 ```pos.BINQuery(string cardNumber)``` method makes a bin query for the provided card. Method takes one parameter and it should be the first 6 digits of the card. It will return a JObject and it contains:
-..* BankName -> bank name of the provided card
-..* CardSceme -> Visa, MasterCard or AMEX
-..* BankURL -> URL of the card's bank
-..* CardCountry -> origin country of the card's bank
-..* CardCountryCode-> country code of the bank's country from WITS (World Integrated Trade Solution)
++ BankName -> bank name of the provided card
++ CardSceme -> Visa, MasterCard or AMEX
++ BankURL -> URL of the card's bank
++ CardCountry -> origin country of the card's bank
++ CardCountryCode-> country code of the bank's country from WITS (World Integrated Trade Solution)
