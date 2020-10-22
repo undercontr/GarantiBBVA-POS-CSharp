@@ -33,9 +33,9 @@ namespace GVPS_SanalPOS
 
 		private string ProvUserID = "PROVAUT"; // Satış işlemi için provision kullanıcısı
 
-		private string ProvUserPassword = "123qweASD/"; // provizyon şifresi
+		private string ProvUserPassword = "provisionPass"; // provizyon şifresi
 
-		private string SecureKey = "12345678"; // 3D için gerekli olan HashData'yı oluşturmak için kullanılacak.
+		private string SecureKey = "ThreeDSecureKey"; // 3D için gerekli olan HashData'yı oluşturmak için kullanılacak.
 
 		private string hashData; // Normal ödeme için gerekli SHA1 hash
 
@@ -53,11 +53,11 @@ namespace GVPS_SanalPOS
 			set { userID = value; }
 		}
 
-		private string TerminalID = "30691297"; // Üye işyerine tanımlanan ödeme tiplerine ait unique ID. 3D, 3D-PAY, 3D-FULL
+		private string TerminalID = "TerminalID"; // Üye işyerine tanımlanan ödeme tiplerine ait unique ID. 3D, 3D-PAY, 3D-FULL
 
 		private string TerminalID_; // Hash için gerekli 
 
-		private string MerchantID = "7000679"; // Üye işyeri no
+		private string MerchantID = "MerchantID"; // Üye işyeri no
 
 		private string remoteIP; // Bankaya gönderilmek üzere POST request yapan aygıtın IP adresi
 
