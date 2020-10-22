@@ -33,7 +33,12 @@ XElement result = pos.Pay();
 result variable contains the XML data from GarantiBBVA provision post. 
 
 # Essentials:
-For production pos.Mode should be "PROD" and pos.TerminalID, pos.MerchandID, pos.ProvUserID, pos.ProvUserPassword and pos.SecureKey properties must be set before the pos.Pay() method runs.
+For production pos.Mode should be "PROD" and below properties must be set before the pos.Pay() method runs: 
++ pos.TerminalID
++ pos.MerchandID
++ pos.ProvUserID
++ pos.ProvUserPassword
++ pos.SecureKey 
 
 # Bin Query:
 ```pos.BINQuery(string cardNumber)``` method makes a bin query for the provided card. Method takes one parameter and it should be the first 6 digits of the card. It will return a JObject and it contains:
